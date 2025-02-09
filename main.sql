@@ -38,7 +38,6 @@ CREATE TABLE produtos (
     FOREIGN KEY (fornecedor_id) REFERENCES fornecedor(id)
 );
 
-INSERT INTO produtos(Nome_produto, Tipo_de_produto,)
 /*INSERT INTO produtos (Nome_produto, preco, quantidade_estoque, tipo_produto) VALUES ('viagra','25.90','30','cosmetico');*/
 
 
