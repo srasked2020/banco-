@@ -13,29 +13,3 @@ CREATE TABLE clientes(
 );
 
 
-CREATE TABLE rededios_sublingual(
-
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Nome_medicamneto VARCHAR(100),
-
-
-);
-
-CREATE TABLE rededios_Parenteral(
-
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Nome_medicamneto VARCHAR(100),
-
-);
-
-CREATE TABLE rededios_Cutânea(
-
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Nome_medicamneto VARCHAR(100)
-);
-
-CREATE TABLE rededios_Nasal(
-
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Nome_medicamneto VARCHAR(100)
-);
