@@ -13,8 +13,8 @@ CREATE TABLE clientes(
     
 );
 
+INSERT INTO clientes (Nome, CPF_CNPJ, TIPO_DE_CLIENTE) VALUES ('João Silva', '123.456.789-00', 'PessoaFisica');
 
--- INSERT INTO clientes (Nome, CPF_CNPJ, TIPO_DE_CLIENTE) VALUES ('thomasturbando','567.202.150-60','PessoaFisica');--
 
 
 CREATE TABLE fornecedor(
@@ -25,7 +25,8 @@ CREATE TABLE fornecedor(
 );
 
 
---INSERT INTO fornecedor (Nome_fornecedor, contato) VALUES ('ANSONIC LABORATORIO ANALISES CLINICAS', '(93) 99139-9933');--
+INSERT INTO fornecedor (Nome_fornecedor, contato) VALUES ('Farmácia Central', '(11) 99999-9999');
+
 
 
 CREATE TABLE produtos (
@@ -38,7 +39,8 @@ CREATE TABLE produtos (
     FOREIGN KEY (fornecedor_id) REFERENCES fornecedor(id)
 );
 
---INSERT INTO produtos (Nome_produto, preco, quantidade_estoque, tipo_produto, fornecedor_id) VALUES ('Shampoo Anticaspa', 25.90, 100, 'higiene', 1);--
+INSERT INTO produtos (Nome_produto, preco, quantidade_estoque, tipo_produto, fornecedor_id) VALUES ('Paracetamol', 10.50, 50, 'remedio', 1);
+
 
 
 CREATE TABLE vendas (
@@ -52,6 +54,8 @@ CREATE TABLE vendas (
 
 );
 
+INSERT INTO vendas (cliente_id, total, forma_pagamento, observacao, status) VALUES (1, 21.00, 'pix', 'Cliente comprou 2 unidades', 'pendente');
+
 
 CREATE TABLE itens_venda (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,5 +66,68 @@ CREATE TABLE itens_venda (
     FOREIGN KEY (venda_id) REFERENCES vendas(id),
     FOREIGN KEY (produto_id) REFERENCES produtos(id)
 );
+
+INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario) VALUES (1, 1, 2, 10.50);
+
+SELECT * FROM produtos WHERE id = 1;
+
+
+CREATE TABLE pagamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    venda_id INT NOT NULL,
+    valor_pago DECIMAL(10,2) NOT NULL,
+    data_pagamento DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    forma_pagamento ENUM('dinheiro', 'cartão', 'pix', 'outro') NOT NULL,
+    FOREIGN KEY (venda_id) REFERENCES vendas(id)
+);
+
+CREATE TABLE enderecos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rua VARCHAR(255),
+    numero VARCHAR(10),
+    bairro VARCHAR(100),
+    cidade VARCHAR(100),
+    estado VARCHAR(50),
+    cep VARCHAR(20),
+    cliente_id INT,
+    fornecedor_id INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (fornecedor_id) REFERENCES fornecedor(id)
+);
+
+CREATE TABLE logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,
+    acao TEXT NOT NULL,
+    data_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+
+CREATE TRIGGER atualizar_estoque
+AFTER INSERT ON itens_venda
+FOR EACH ROW
+UPDATE produtos 
+SET quantidade_estoque = quantidade_estoque - NEW.quantidade
+WHERE id = NEW.produto_id;
+
+--consultar o banco de dados--
+
+SELECT v.id, c.Nome, v.total, v.forma_pagamento, v.status 
+FROM vendas v 
+JOIN clientes c ON v.cliente_id = c.id;
+
+
+--Verificar os Produtos no Estoque---
+
+SELECT Nome_produto, quantidade_estoque FROM produtos;
+
+--SELECT * FROM pagamentos;--
+
+SELECT * FROM pagamentos;
+
+--Verificar os Logs do Sistema--
+
+SELECT * FROM logs;
 
 
