@@ -65,7 +65,9 @@ CREATE TABLE vendas (
 
 );
 
-INSERT INTO vendas (cliente_id, total, forma_pagamento, observacao, status) VALUES (1, 21.00, 'pix', 'Cliente comprou 2 unidades', 'pendente');
+
+INSERT INTO vendas (cliente_id, total, forma_pagamento, observacao) VALUES (1, 150.75, 'pix', 'Pagamento realizado via Pix, entrega agendada');
+
 
 
 CREATE TABLE itens_venda (
