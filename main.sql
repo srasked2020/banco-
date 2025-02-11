@@ -15,6 +15,17 @@ CREATE TABLE clientes(
 
 INSERT INTO clientes (Nome, CPF_CNPJ, TIPO_DE_CLIENTE) VALUES ('João Silva', '123.456.789-00', 'PessoaFisica');
 
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    tipo ENUM('admin', 'vendedor') NOT NULL
+);
+
+INSERT INTO usuarios (nome, email, senha, tipo) VALUES ('Admin', 'admin@email.com', SHA2('senha123', 256), 'admin');
+
+
 
 
 CREATE TABLE fornecedor(
